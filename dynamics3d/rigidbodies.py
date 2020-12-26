@@ -36,7 +36,7 @@ class Body:
         return Force3D(self.net_force, eq_pos)
 
     def add_force(self, force, location=None):
-        if type(force) is Force3D:
+        if issubclass(force.__class__, Force3D):
             self.forces.append(force)
         else:
             if location is None:

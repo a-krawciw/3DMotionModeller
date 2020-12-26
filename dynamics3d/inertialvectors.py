@@ -35,6 +35,19 @@ class Force3D:
         return f"Force {self.vect}, Position {self.location}"
 
 
+class TimeVaryingForce(Force3D):
+
+    def __init__(self, func, position=None, orientation_dependent=None):
+        super().__init__(func(0), position, orientation_dependent)
+        self.function = func
+
+    def update(self, time):
+        self.vect = self.function(time)
+
+    def __repr__(self):
+        return f"Time Varying force currently {self.vect} at {self.location}"
+
+
 def rotation_quaternion(angle: float, axis: np.ndarray):
     if not np.array_equal([0, 0, 0], axis):
         axis = axis / np.linalg.norm(axis)

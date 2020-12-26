@@ -2,7 +2,7 @@ import numpy as np
 import quaternion
 
 from dynamics3d import g, rho_air
-from dynamics3d.inertialvectors import Force3D, rotation_quaternion
+from dynamics3d.inertialvectors import Force3D, rotation_quaternion, TimeVaryingForce
 from dynamics3d.rigidbodies import Body
 from dynamics3d.simulation import Simulated
 
@@ -119,7 +119,7 @@ class SpiralBall(Body, Simulated):
         self.pos_history.append(p1)
 
 
-class BlockOnSpringUnforced(Body, Simulated):
+class BlockOnSpringForced(Body, Simulated):
 
     def __init__(self, mass, c, k, width=1, initial_displacement=0, step_time=0.01):
         I = mass * width ** 2 / 6
@@ -131,7 +131,7 @@ class BlockOnSpringUnforced(Body, Simulated):
 
         self.spring_force = Force3D([-k * initial_displacement, 0, 0])
         self.damper_force = Force3D([0, 0, 0])
-        self.external_force = Force3D([0, 0, 0])
+        self.external_force = TimeVaryingForce(lambda t: np.array([np.sin(10 * t), 0, 0]))
 
         self.add_force(self.spring_force)
         self.add_force(self.damper_force)
@@ -145,7 +145,7 @@ class BlockOnSpringUnforced(Body, Simulated):
 
         self.spring_force.vect = -self.k * p1
         self.damper_force.vect = -self.c * v1
-        self.external_force.vect = np.array([np.sin(10 * t), 0, 0])
+        self.external_force.update(t)
 
         self.vel_history.append(v1)
         self.pos_history.append(p1)

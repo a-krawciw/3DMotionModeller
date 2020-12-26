@@ -1,12 +1,21 @@
 import numpy as np
 
-from bodies import Ball, BlockOnSpringUnforced, HoveringRocket, SpinningBall, ProjectileBall, SpiralBall
+from bodies import Ball, BlockOnSpringForced, HoveringRocket, SpinningBall, ProjectileBall, SpiralBall
 import matplotlib.pyplot as plt
 import matplotlib
 
 from dynamics3d import g
 
 matplotlib.use('Qt5Agg')
+
+
+
+spring = BlockOnSpringForced(10, 5, 100, initial_displacement=0.1)
+spring.run_for_time(100)
+plt.figure(4)
+ax4 = plt.axes(label = 3)
+ax4.plot(spring.time, [p[0] for p in spring.pos_history])
+
 
 b = SpiralBall(mass=10, radius=0.1, step_time=0.01)
 
@@ -33,6 +42,11 @@ ax3 = plt.axes(label=3)
 for i in range(0, 3):
     ax3.plot(b.time, [p[i] for p in b.vel_history], label=f"Velocity {i}")
 plt.legend()
+
+
+
+
+
 
 plt.show()
 
