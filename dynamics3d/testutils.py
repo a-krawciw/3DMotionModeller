@@ -14,3 +14,7 @@ class ArrayTestCase(TestCase):
     def assertIsNotNan(self, val):
         if np.isnan(val):
             self.fail(msg=f"Expected not nan, got {val}")
+
+    def assertQuaternionAlmostEqual(self, q1, q2, rtol=1e-9, atol=1e-15):
+        if not np.isclose(q1, q2, rtol=rtol, atol=atol):
+            self.fail(msg=f"{q1} != {q2} within tolerance rel {rtol} and abs {atol}")

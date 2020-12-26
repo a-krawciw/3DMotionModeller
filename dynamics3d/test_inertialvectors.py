@@ -46,4 +46,4 @@ class TestForce3D(ArrayTestCase):
         self.assertArrayEqual([0, 10, 0], self.force.in_frame(np.array([[0, -1, 0], [1, 0, 0], [0, 0, 1]])))
 
     def test_rotation_quaternion_valid(self):
-        self.assertEqual(np.quaternion(0, 0, 1, 0), rotation_quaternion(np.pi, np.array([0, 1, 0])))
+        self.assertQuaternionAlmostEqual(np.quaternion(0, 0, 1, 0), rotation_quaternion(np.pi, np.array([0, 1, 0])))
