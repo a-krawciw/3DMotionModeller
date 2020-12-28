@@ -1,7 +1,7 @@
 import numpy as np
 
 from dynamics3d.inertialvectors import Force3D, rotation_quaternion, TimeVaryingForce
-from testutils import ArrayTestCase
+from .testutils import ArrayTestCase
 
 
 class TestForce3D(ArrayTestCase):

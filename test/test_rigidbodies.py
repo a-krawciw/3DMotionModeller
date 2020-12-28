@@ -2,7 +2,7 @@ import numpy as np
 
 from dynamics3d.inertialvectors import Force3D
 from dynamics3d import Body
-from testutils import ArrayTestCase
+from .testutils import ArrayTestCase
 
 
 class TestBody(ArrayTestCase):
