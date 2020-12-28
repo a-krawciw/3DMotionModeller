@@ -1,10 +1,9 @@
 import numpy as np
-import quaternion
 
 from dynamics3d import g, rho_air, G
 from dynamics3d.inertialvectors import Force3D, rotation_quaternion, TimeVaryingForce
-from dynamics3d.rigidbodies import Body
-from dynamics3d.simulation import Simulated, SimulatedBody
+from dynamics3d import Body
+from dynamics3d import Simulated, SimulatedBody
 
 
 class Ball(Body, Simulated):

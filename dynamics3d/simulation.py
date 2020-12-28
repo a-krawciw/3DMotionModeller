@@ -1,14 +1,19 @@
 import numpy as np
 
 from dynamics3d.inertialvectors import rotation_quaternion
-from dynamics3d.rigidbodies import Body
+from dynamics3d import Body
+
 
 class MotionStore3D:
-    def __init__(self, values: list):
+    def __init__(self, values: list, dt):
         self.data = values
+        self.dt = dt
 
     def alongIndex(self, i):
         return [v[i] for v in self.data]
+
+    def __len__(self):
+        return len(self.data)
 
     @property
     def x(self):
@@ -25,6 +30,11 @@ class MotionStore3D:
     @property
     def magnitude(self):
         return [np.linalg.norm(v) for v in self.data]
+
+    @property
+    def time(self):
+        return np.arange(0, len(self)) * self.dt
+
 
 class Simulated:
     def __init__(self, step_time, v_initial=None, p_initial=None, w_initial=None, initial_orientation=None):
@@ -65,27 +75,27 @@ class Simulated:
 
     @property
     def position_history(self):
-        return MotionStore3D(self._pos_history)
+        return MotionStore3D(self._pos_history, self.dT)
 
     @property
     def velocity_history(self):
-        return MotionStore3D(self._vel_history)
+        return MotionStore3D(self._vel_history, self.dT)
 
     @property
     def acceleration_history(self):
-        return MotionStore3D(self._accel_history)
+        return MotionStore3D(self._accel_history, self.dT)
 
     @property
     def theta_history(self):
-        return MotionStore3D(self._theta_history)
+        return MotionStore3D(self._theta_history, self.dT)
 
     @property
     def omega_history(self):
-        return MotionStore3D(self._omega_history)
+        return MotionStore3D(self._omega_history, self.dT)
 
     @property
     def alpha_history(self):
-        return MotionStore3D(self._alpha_history)
+        return MotionStore3D(self._alpha_history, self.dT)
 
 
 class SimulatedBody(Body, Simulated):

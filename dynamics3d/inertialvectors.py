@@ -42,7 +42,7 @@ class TimeVaryingForce(Force3D):
         self.function = func
 
     def update(self, time):
-        self.vect = self.function(time)
+        self.vect = np.array(self.function(time))
 
     def __repr__(self):
         return f"Time Varying force currently {self.vect} at {self.location}"

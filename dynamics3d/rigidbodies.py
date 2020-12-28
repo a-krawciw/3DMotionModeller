@@ -1,7 +1,7 @@
 import functools
 
 import numpy as np
-from dynamics3d.inertialvectors import Force3D
+from dynamics3d import Force3D
 import quaternion
 
 
