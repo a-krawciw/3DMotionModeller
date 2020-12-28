@@ -1,4 +1,4 @@
-from .inertialvectors import Force3D, TimeVaryingForce
+from .inertialvectors import Force3D, TimeVaryingForce, Moment
 from .rigidbodies import Body
 from .simulation import SimulatedBody
 

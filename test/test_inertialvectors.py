@@ -1,6 +1,6 @@
 import numpy as np
 
-from dynamics3d.inertialvectors import Force3D, rotation_quaternion, TimeVaryingForce
+from dynamics3d.inertialvectors import Force3D, rotation_quaternion, TimeVaryingForce, Moment
 from .testutils import ArrayTestCase
 
 
@@ -64,3 +64,18 @@ class TestTimeVaryingForce(ArrayTestCase):
         self.force = TimeVaryingForce(lambda t: np.array([t+2, 0, t]))
         self.force.update(10)
         self.assertArrayEqual([12, 0, 10], self.force.vect)
+
+
+class TestMoment(ArrayTestCase):
+
+    def setUp(self) -> None:
+        self.moment = Moment([10, 0, 0])
+
+    def test_force_is_zero(self):
+        self.assertArrayEqual([0, 0, 0], self.moment.vect)
+
+    def test_moment_returned_origin(self):
+        self.assertArrayEqual([10, 0, 0], self.moment.moment_around([0, 0, 0]))
+
+    def test_moment_returned_anywhere(self):
+        self.assertArrayEqual([10, 0, 0], self.moment.moment_around([-10, 20, 300]))

@@ -24,10 +24,12 @@ class Body:
     def net_force(self) -> np.ndarray:
         return functools.reduce(lambda a, b: a + b.in_frame(self.rotation_matrix), self.forces, np.array([0, 0, 0]))
 
-    def net_moment(self, point=None) -> np.ndarray:
+    def net_moment(self, point=None, frame=None) -> np.ndarray:
         if point is None:
             point = self.cg
-        return functools.reduce(lambda a, b: a + b.moment_around(point), self.forces, np.array([0, 0, 0]))
+        if frame is None:
+            frame = self.rotation_matrix
+        return functools.reduce(lambda a, b: a + b.moment_in_frame(point, frame), self.forces, np.array([0, 0, 0]))
 
     @property
     def equivalent_force(self, point=None) -> Force3D:

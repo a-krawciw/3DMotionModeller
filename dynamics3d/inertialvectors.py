@@ -23,6 +23,12 @@ class Force3D:
         else:
             return self.vect
 
+    def moment_in_frame(self, r_vect: np.ndarray, rotation_matrix: np.ndarray):
+        if self.orientation_dependent:
+            return (rotation_matrix @ self.moment_around(r_vect)[np.newaxis].T).reshape((3,))
+        else:
+            return self.moment_around(r_vect)
+
     def __eq__(self, other):
         if not type(self) == type(other):
             return False
@@ -53,3 +59,13 @@ def rotation_quaternion(angle: float, axis: np.ndarray):
         axis = axis / np.linalg.norm(axis)
     a = sin(angle / 2)
     return np.quaternion(cos(angle / 2), a * axis[0], a * axis[1], a * axis[2])
+
+
+class Moment(Force3D):
+
+    def __init__(self, moment, orientation_dependent=False):
+        super().__init__([0, 0, 0], orientation_dependent)
+        self.moment = moment
+
+    def moment_around(self, r_vect):
+        return self.moment
