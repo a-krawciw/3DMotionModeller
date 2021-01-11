@@ -16,7 +16,7 @@ class Ball(SimulatedBody):
         self.cd = 0.5
         self.area = np.pi * radius ** 2
 
-    def update_forces(self, t, p, v, a, w, alpha):
+    def update_forces(self, t, p, v, a, w, alpha, theta):
         self.air_drag.vect = -v * np.linalg.norm(v) * 0.5 * self.cd * rho_air * self.area
 
 
@@ -27,8 +27,6 @@ class ProjectileBall(SimulatedBody):
         SimulatedBody.__init__(self, mass, [0, 0, 0], [[I, 0, 0], [0, I, 0], [0, 0, I]],
                                step_time=step_time, v_initial=[10, 0, 0])
         self.add_force(Force3D([0, 0, -mass * g], orientation_dependent=False))
-        self.cd = 0.5
-        self.area = np.pi * radius ** 2
 
 
 class SpinningBall(SimulatedBody):
@@ -45,7 +43,7 @@ class SpinningBall(SimulatedBody):
         self.cd = 0.5
         self.area = np.pi * radius ** 2
 
-    def update_forces(self, t, p, v, a, w, alpha):
+    def update_forces(self, t, p, v, a, w, alpha, theta):
         self.air_drag.vect = -v * np.linalg.norm(v) * 0.5 * self.cd * rho_air * self.area
 
 
@@ -67,7 +65,7 @@ class BlockOnSpringForced(SimulatedBody):
         self.add_force(self.damper_force)
         self.add_force(self.external_force)
 
-    def update_forces(self, t, p, v, a, w, alpha):
+    def update_forces(self, t, p, v, a, w, alpha, theta):
         self.spring_force.vect = -self.k * p
         self.damper_force.vect = -self.c * v
         self.external_force.update(t)
@@ -91,7 +89,7 @@ class HoveringRocket(SimulatedBody):
         self.cd = 0.5
         self.area = np.pi * radius ** 2
 
-    def update_forces(self, t, p, v, a, w, alpha):
+    def update_forces(self, t, p, v, a, w, alpha, theta):
         target = np.array([0, 0, 10.0])
 
         self.error += target - p
@@ -112,6 +110,6 @@ class Moon(SimulatedBody):
         self.gravity = Force3D([0, 0, 0], orientation_dependent=False)
         self.add_force(self.gravity)
 
-    def update_forces(self, t, p, v, a, w, alpha):
+    def update_forces(self, t, p, v, a, w, alpha, theta):
         mass_earth = 5.972e24
         self.gravity.vect = -G*mass_earth*self.mass/np.linalg.norm(p)**3*p

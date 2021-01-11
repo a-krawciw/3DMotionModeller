@@ -64,7 +64,7 @@ def rotation_quaternion(angle: float, axis: np.ndarray):
 class Moment(Force3D):
 
     def __init__(self, moment, orientation_dependent=False):
-        super().__init__([0, 0, 0], orientation_dependent)
+        super().__init__([0, 0, 0], orientation_dependent=orientation_dependent)
         self.moment = moment
 
     def moment_around(self, r_vect):

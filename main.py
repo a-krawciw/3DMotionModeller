@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import matplotlib
 import dynamics3d.plotting as dyn_plot
 
-matplotlib.use('Qt5Agg')
 
 moon = Moon(1104, step_time=400)
 moon.run_for_time(2000000)
@@ -18,5 +17,3 @@ dyn_plot.trace_plot_2d(moon_pos, 'x', 'y')
 dyn_plot.trace_plot_3d(moon_pos)
 
 plt.show()
-
-

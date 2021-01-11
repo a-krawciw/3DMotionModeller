@@ -52,16 +52,16 @@ class TestForce3D(ArrayTestCase):
 class TestTimeVaryingForce(ArrayTestCase):
 
     def test_time_evaluation(self):
-        self.force = TimeVaryingForce(lambda t: [t+2, 0, 0])
+        self.force = TimeVaryingForce(lambda t: [t + 2, 0, 0])
         self.assertArrayEqual([2, 0, 0], self.force.vect)
 
     def test_force_on_update(self):
-        self.force = TimeVaryingForce(lambda t: [t+2, 0, 0])
+        self.force = TimeVaryingForce(lambda t: [t + 2, 0, 0])
         self.force.update(10)
         self.assertArrayEqual([12, 0, 0], self.force.vect)
 
     def test_force_on_update_np(self):
-        self.force = TimeVaryingForce(lambda t: np.array([t+2, 0, t]))
+        self.force = TimeVaryingForce(lambda t: np.array([t + 2, 0, t]))
         self.force.update(10)
         self.assertArrayEqual([12, 0, 10], self.force.vect)
 

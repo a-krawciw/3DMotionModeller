@@ -57,6 +57,6 @@ class Body:
     @property
     def angular_acceleration(self):
         moment = self.net_moment()
-        if np.array_equal([0, 0, 0], moment):
+        if np.allclose([0, 0, 0], moment, atol=0.001):
             return np.array([0, 0, 0])
         return moment / self.moment_of_inertia(moment)

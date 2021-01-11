@@ -9,7 +9,7 @@ class MotionStore3D:
         self.data = values
         self.dt = dt
 
-    def alongIndex(self, i):
+    def along_index(self, i):
         return [v[i] for v in self.data]
 
     def __len__(self):
@@ -17,15 +17,15 @@ class MotionStore3D:
 
     @property
     def x(self):
-        return self.alongIndex(0)
+        return self.along_index(0)
 
     @property
     def y(self):
-        return self.alongIndex(1)
+        return self.along_index(1)
 
     @property
     def z(self):
-        return self.alongIndex(2)
+        return self.along_index(2)
 
     @property
     def magnitude(self):
@@ -39,7 +39,7 @@ class MotionStore3D:
 class Simulated:
     def __init__(self, step_time, v_initial=None, p_initial=None, w_initial=None, initial_orientation=None):
         if initial_orientation is None:
-            initial_orientation = [1, 0, 0]
+            initial_orientation = [0, 0, 0]
         if p_initial is None:
             p_initial = [0, 0, 0]
         if v_initial is None:
@@ -118,7 +118,8 @@ class SimulatedBody(Body, Simulated):
         q = rotation_quaternion(np.linalg.norm(delta_theta), delta_theta)
         self.direction = self.direction * q
 
-        self.update_forces(t, p1, v1, a, w1, alpha)
+        self.update_forces(t, p1, v1, a, w1, alpha, self._theta_history[-1] + delta_theta)
+
 
         self._alpha_history.append(alpha)
         self._omega_history.append(w1)
@@ -126,5 +127,11 @@ class SimulatedBody(Body, Simulated):
         self._vel_history.append(v1)
         self._pos_history.append(p1)
 
-    def update_forces(self, t, p, v, a, w, alpha):
+    def update_forces(self, t, p, v, a, w, alpha, theta):
         pass
+
+
+class InvalidSimulationException(Exception):
+
+    def __init__(self):
+        super(InvalidSimulationException, self).__init__("Invalid simulation")
